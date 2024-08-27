@@ -1,2 +1,2 @@
 # simple-risc-v
-RISC-V + Aseembly "compiler" | Languages: Verilog, Python
+RISC-V + Assembly "compiler" | Languages: Verilog, Python
