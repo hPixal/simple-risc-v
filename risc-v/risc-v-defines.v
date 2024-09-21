@@ -32,3 +32,25 @@
 `define READ_X29_T4 5'b11101    // temporary
 `define READ_X31_T6 5'b11110    // temporary
 `define READ_X30_T5 5'b11111    // temporary
+
+
+// Opcode defines
+`define OP_R_TYPE 7'b0110011
+`define OP_I_TYPE 7'b0010011
+`define OP_S_TYPE 7'b0100011
+`define OP_B_TYPE 7'b1100011
+`define OP_U_TYPE 7'b0010111
+`define OP_J_TYPE 7'b1101111
+
+
+`define ALU_ADD     7'h00000 
+`define ALU_SUB     7'h00000 
+`define ALU_SLL     7'h00000 
+`define ALU_SRL     7'h00000 
+`define ALU_SRA     7'h00000 
+`define ALU_SLT     7'h00000 
+`define ALU_SLTU    7'h00000
+`define ALU_XOR     7'h00000
+`define ALU_OR      7'h00000
+`define ALU_AND     7'h00000
+`define ALU_PASS_B  7'h00000
