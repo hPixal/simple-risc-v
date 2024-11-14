@@ -42,15 +42,15 @@
 `define OP_U_TYPE 7'b0010111
 `define OP_J_TYPE 7'b1101111
 
-
-`define ALU_ADD     7'h00000 
-`define ALU_SUB     7'h00000 
-`define ALU_SLL     7'h00000 
-`define ALU_SRL     7'h00000 
-`define ALU_SRA     7'h00000 
-`define ALU_SLT     7'h00000 
-`define ALU_SLTU    7'h00000
-`define ALU_XOR     7'h00000
-`define ALU_OR      7'h00000
-`define ALU_AND     7'h00000
-`define ALU_PASS_B  7'h00000
+// ALU
+`define ALU_ADD     4'b0000
+`define ALU_SUB     4'b1000
+`define ALU_SLL     4'b0001
+`define ALU_SRL     4'b0101
+`define ALU_SRA     4'b1101
+`define ALU_SLT     4'b0010
+`define ALU_SLTU    4'b0011
+`define ALU_XOR     4'b0100
+`define ALU_OR      4'b0110
+`define ALU_AND     4'b0111
+`define ALU_PASS_B  4'b1111
