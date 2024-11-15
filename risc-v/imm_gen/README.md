@@ -1,5 +1,3 @@
-Here's a summary of the `imm_gen` module:
-
 ### Overview
 
 The `imm_gen` (Immediate Generator) module is responsible for extracting and extending the immediate value from an instruction in a RISC-V processor. This immediate value is used in various operations such as arithmetic, memory access, and branch instructions.

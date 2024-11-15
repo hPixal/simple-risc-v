@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 
 module imem(
-    input wire clk,            // Clock input (optional if you want synchronous behavior)
+    input wire clk,            // Clock input (positive edge triggered)
     input wire [31:0] addr,    // Address input (from the program counter)
     output reg [31:0] instr    // Instruction output
 );

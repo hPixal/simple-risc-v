@@ -54,3 +54,84 @@
 `define ALU_OR      4'b0110
 `define ALU_AND     4'b0111
 `define ALU_PASS_B  4'b1111
+
+// Branch Resolution
+`define BR_SEL_BEQ 2'd0 // Branch Equal
+`define BR_SEL_BNE 2'd1 // Branch Not Equal
+`define BR_SEL_BLT 2'd2 // Branch Less Than
+`define BR_SEL_BGE 2'd3 // Branch Greater Than
+
+`ifndef AMA_RISCV_DEFINES
+`define AMA_RISCV_DEFINES
+
+// Memory map
+`define RESET_VECTOR 32'h8000_0000
+`define DMEM_RANGE 2'b10
+`define MMIO_RANGE 2'b01
+
+// Opcodes
+`define OPC7_R_TYPE 7'b011_0011 // R-type
+`define OPC7_I_TYPE 7'b001_0011 // I-type
+`define OPC7_LOAD 7'b000_0011 // I-type
+`define OPC7_STORE 7'b010_0011 // S-type
+`define OPC7_BRANCH 7'b110_0011 // B-type
+`define OPC7_JALR 7'b110_0111 // I-type
+`define OPC7_JAL 7'b110_1111 // J-type
+`define OPC7_LUI 7'b011_0111 // U-type
+`define OPC7_AUIPC 7'b001_0111 // U-type
+`define OPC7_SYSTEM 7'b111_0011 // I-type, System
+
+// NOP
+`define NOP 32'h13 // addi x0 x0 0
+
+// CSR addresses
+`define CSR_TOHOST 12'h51E
+
+// MUX select signals
+// PC select
+`define PC_SEL_INC4 2'd0 // PC = PC + 4
+`define PC_SEL_ALU 2'd1 // ALU output, used for jump/branch
+`define PC_SEL_BP 2'd2 // PC = Branch prediction output
+`define PC_SEL_START_ADDR 2'd3 // PC = Hardwired start address
+
+// ALU A operand select
+`define ALU_A_SEL_RS1 2'd0 // A = Reg[rs1]
+`define ALU_A_SEL_PC 2'd1 // A = PC
+`define ALU_A_SEL_FWD_ALU 2'd2 // A = ALU; forwarding from MEM stage
+
+// ALU B operand select
+`define ALU_B_SEL_RS2 2'd0 // B = Reg[rs2]
+`define ALU_B_SEL_IMM 2'd1 // B = Immediate value; from Imm Gen
+`define ALU_B_SEL_FWD_ALU 2'd2 // B = ALU; forwarding from MEM stage
+
+// Write back select
+`define WB_SEL_DMEM 2'd0 // Reg[rd] = DMEM[ALU]
+`define WB_SEL_ALU 2'd1 // Reg[rd] = ALU
+`define WB_SEL_INC4 2'd2 // Reg[rd] = PC + 4
+`define WB_SEL_CSR 2'd3 // Reg[rd] = CSR data
+
+// Branch Resolution
+`define BR_SEL_BEQ 2'd0 // Branch Equal
+`define BR_SEL_BNE 2'd1 // Branch Not Equal
+`define BR_SEL_BLT 2'd2 // Branch Less Than
+`define BR_SEL_BGE 2'd3 // Branch Greater Than
+
+// DMEM access
+// DMEM Width
+`define DMEM_BYTE   2'd0
+`define DMEM_HALF   2'd1
+`define DMEM_WORD   2'd2
+
+// DMEM Offset
+`define DMEM_OFF_0  2'd0
+`define DMEM_OFF_1  2'd1
+`define DMEM_OFF_2  2'd2
+`define DMEM_OFF_3  2'd3
+
+// Imm Gen
+`define IG_DISABLED 3'b000
+`define IG_I_TYPE   3'b001
+`define IG_S_TYPE   3'b010
+`define IG_B_TYPE   3'b011
+`define IG_J_TYPE   3'b100
+`define IG_U_TYPE   3'b101

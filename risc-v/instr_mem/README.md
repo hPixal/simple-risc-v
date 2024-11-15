@@ -18,5 +18,3 @@ The Instruction Memory (IMEM) in a RISC-V processor is a simple memory block tha
 
 ### Example of a Simple IMEM Module
 The IMEM can be implemented as a simple read-only memory (ROM) or as an array of registers initialized with instruction values. In many cases, the IMEM is designed to be read-only and preloaded with instructions during simulation or synthesis.
-
-Would you like to see an example of how to implement an IMEM module?
