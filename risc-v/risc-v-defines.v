@@ -30,19 +30,10 @@
 `define READ_X27_S11 5'b11011   // saved register
 `define READ_X28_T3 5'b11100    // temporary
 `define READ_X29_T4 5'b11101    // temporary
-`define READ_X31_T6 5'b11110    // temporary
-`define READ_X30_T5 5'b11111    // temporary
+`define READ_X30_T5 5'b11110    // temporary
+`define READ_X31_T6 5'b11111    // temporary
 
-
-// Opcode defines
-`define OP_R_TYPE 7'b0110011
-`define OP_I_TYPE 7'b0010011
-`define OP_S_TYPE 7'b0100011
-`define OP_B_TYPE 7'b1100011
-`define OP_U_TYPE 7'b0010111
-`define OP_J_TYPE 7'b1101111
-
-// ALU
+// ALU operation codes
 `define ALU_ADD     4'b0000
 `define ALU_SUB     4'b1000
 `define ALU_SLL     4'b0001
@@ -55,83 +46,39 @@
 `define ALU_AND     4'b0111
 `define ALU_PASS_B  4'b1111
 
-// Branch Resolution
-`define BR_SEL_BEQ 2'd0 // Branch Equal
-`define BR_SEL_BNE 2'd1 // Branch Not Equal
-`define BR_SEL_BLT 2'd2 // Branch Less Than
-`define BR_SEL_BGE 2'd3 // Branch Greater Than
+// Opcode values (7-bit)
+`define OPCODE_R    7'b0110011  // R-type instructions (e.g., add, sub)
+`define OPCODE_I    7'b0010011  // I-type instructions (e.g., addi, ori)
+`define OPCODE_LOAD 7'b0000011  // Load instructions
+`define OPCODE_STORE 7'b0100011 // Store instructions
+`define OPCODE_BRANCH 7'b1100011 // Branch instructions
+`define OPCODE_JAL  7'b1101111  // JAL (jump and link)
+`define OPCODE_JALR 7'b1100111  // JALR (jump and link register)
+`define OPCODE_LUI  7'b0110111  // Load Upper Immediate
+`define OPCODE_AUIPC 7'b0010111 // Add Upper Immediate to PC
 
-`ifndef AMA_RISCV_DEFINES
-`define AMA_RISCV_DEFINES
+// Immediate types
+`define IMM_I       3'b000      // I-type immediate
+`define IMM_S       3'b001      // S-type immediate
+`define IMM_B       3'b010      // B-type immediate (branch)
+`define IMM_U       3'b011      // U-type immediate
+`define IMM_J       3'b100      // J-type immediate (jump)
 
-// Memory map
-`define RESET_VECTOR 32'h8000_0000
-`define DMEM_RANGE 2'b10
-`define MMIO_RANGE 2'b01
+// Control signals
+`define ALU_OP_ADD  3'b000
+`define ALU_OP_SUB  3'b001
+`define ALU_OP_LUI  3'b010
+`define ALU_OP_SRL  3'b011
+`define ALU_OP_SRA  3'b100
+`define ALU_OP_AND  3'b101
+`define ALU_OP_OR   3'b110
+`define ALU_OP_XOR  3'b111
 
-// Opcodes
-`define OPC7_R_TYPE 7'b011_0011 // R-type
-`define OPC7_I_TYPE 7'b001_0011 // I-type
-`define OPC7_LOAD 7'b000_0011 // I-type
-`define OPC7_STORE 7'b010_0011 // S-type
-`define OPC7_BRANCH 7'b110_0011 // B-type
-`define OPC7_JALR 7'b110_0111 // I-type
-`define OPC7_JAL 7'b110_1111 // J-type
-`define OPC7_LUI 7'b011_0111 // U-type
-`define OPC7_AUIPC 7'b001_0111 // U-type
-`define OPC7_SYSTEM 7'b111_0011 // I-type, System
-
-// NOP
-`define NOP 32'h13 // addi x0 x0 0
-
-// CSR addresses
-`define CSR_TOHOST 12'h51E
-
-// MUX select signals
-// PC select
-`define PC_SEL_INC4 2'd0 // PC = PC + 4
-`define PC_SEL_ALU 2'd1 // ALU output, used for jump/branch
-`define PC_SEL_BP 2'd2 // PC = Branch prediction output
-`define PC_SEL_START_ADDR 2'd3 // PC = Hardwired start address
-
-// ALU A operand select
-`define ALU_A_SEL_RS1 2'd0 // A = Reg[rs1]
-`define ALU_A_SEL_PC 2'd1 // A = PC
-`define ALU_A_SEL_FWD_ALU 2'd2 // A = ALU; forwarding from MEM stage
-
-// ALU B operand select
-`define ALU_B_SEL_RS2 2'd0 // B = Reg[rs2]
-`define ALU_B_SEL_IMM 2'd1 // B = Immediate value; from Imm Gen
-`define ALU_B_SEL_FWD_ALU 2'd2 // B = ALU; forwarding from MEM stage
-
-// Write back select
-`define WB_SEL_DMEM 2'd0 // Reg[rd] = DMEM[ALU]
-`define WB_SEL_ALU 2'd1 // Reg[rd] = ALU
-`define WB_SEL_INC4 2'd2 // Reg[rd] = PC + 4
-`define WB_SEL_CSR 2'd3 // Reg[rd] = CSR data
-
-// Branch Resolution
-`define BR_SEL_BEQ 2'd0 // Branch Equal
-`define BR_SEL_BNE 2'd1 // Branch Not Equal
-`define BR_SEL_BLT 2'd2 // Branch Less Than
-`define BR_SEL_BGE 2'd3 // Branch Greater Than
-
-// DMEM access
-// DMEM Width
-`define DMEM_BYTE   2'd0
-`define DMEM_HALF   2'd1
-`define DMEM_WORD   2'd2
-
-// DMEM Offset
-`define DMEM_OFF_0  2'd0
-`define DMEM_OFF_1  2'd1
-`define DMEM_OFF_2  2'd2
-`define DMEM_OFF_3  2'd3
-
-// Imm Gen
-`define IG_DISABLED 3'b000
-`define IG_I_TYPE   3'b001
-`define IG_S_TYPE   3'b010
-`define IG_B_TYPE   3'b011
-`define IG_J_TYPE   3'b100
-`define IG_U_TYPE   3'b101
+// CSR register addresses (12-bit)
+`define CSR_MSTATUS   12'h300   // Machine status register
+`define CSR_MISA      12'h301   // ISA and extensions
+`define CSR_MEPC      12'h341   // Machine exception program counter
+`define CSR_MCAUSE    12'h342   // Machine cause register
+`define CSR_MTVAL     12'h343   // Machine trap value
+`define CSR_MTVEC     12'h305   // Machine trap-vector base address
+`define CSR_MSCRATCH  12'h340   // Machine scratch register

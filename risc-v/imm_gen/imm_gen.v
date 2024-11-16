@@ -1,27 +1,31 @@
 `include "../risc-v-defines.v"
 
 module imm_gen (
-    input wire clk,         // Clock input
-    input wire rst,         // Reset input
-    input wire [31:0] inst, // Instruction input
-    output reg [31:0] imm   // Immediate output
+    input wire [31:0] instr, // Full instr word
+    input wire [2:0] imm_sel,      // Immediate select signal
+    output reg [31:0] imm_out      // Generated immediate value
 );
 
-always @ (posedge clk) begin
-    if (rst == 1'b1) begin
-        imm <= 32'b0;
-    end
-    else begin
-        case(inst[6:0])
-                `OP_I_TYPE: imm <= {{20{inst[31]}}, inst[31:20]};
-                `OP_S_TYPE: imm <= {{20{inst[31]}}, inst[31:25], inst[11:7]};
-                `OP_B_TYPE: imm <= {{19{inst[31]}}, inst[7], inst[30:25], inst[11:8]};
-                `OP_U_TYPE: imm <= {inst[31:12], 12'b0};
-                `OP_J_TYPE: imm <= {{12{inst[31]}}, inst[19:12], inst[20], inst[30:21]};
-            default: 
-                imm <= 32'b0;
+    always @(*) begin
+        case (imm_sel)
+            `IMM_I: begin // I-type immediate
+                imm_out = {{20{instr[31]}}, instr[31:20]};
+            end
+            `IMM_S: begin // S-type immediate
+                imm_out = {{20{instr[31]}}, instr[31:25], instr[11:7]};
+            end
+            `IMM_B: begin // B-type immediate
+                imm_out = {{19{instr[31]}}, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0};
+            end
+            `IMM_U: begin // U-type immediate
+                imm_out = {instr[31:12], 12'b0};
+            end
+            `IMM_J: begin // J-type immediate
+                imm_out = {{11{instr[31]}}, instr[31], instr[19:12], instr[20], instr[30:21], 1'b0};
+            end
+            default: begin // Default: 0
+                imm_out = 32'b0;
+            end
         endcase
     end
-end
-
 endmodule

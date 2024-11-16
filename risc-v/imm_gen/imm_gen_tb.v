@@ -1,78 +1,70 @@
-`timescale 1ns/1ps
-// `include "imm_gen.v" // Adjust the path if needed
+`timescale 1ns / 1ps
+`include "../risc-v-defines.v"
 
 module imm_gen_tb;
 
-    // Inputs
-    reg clk;
-    reg rst;
-    reg [31:0] inst;
-
-    // Outputs
-    wire [31:0] imm;
-
-    // Instantiate the Unit Under Test (UUT)
+    // Inputs to the imm_gen module
+    reg [31:0] instr;
+    reg [2:0] imm_sel;
+    
+    // Output from the imm_gen module
+    wire [31:0] imm_out;
+    
+    // Instantiate the imm_gen module
     imm_gen uut (
-        .clk(clk),
-        .rst(rst),
-        .inst(inst),
-        .imm(imm)
+        .instr(instr),
+        .imm_sel(imm_sel),
+        .imm_out(imm_out)
     );
-
-    // Clock generation
-    always begin
-        #5 clk = ~clk; // Toggle every 5 time units
-    end
-
-    // Test cases
+    
+    // Test procedure
     initial begin
         $dumpfile("imm_gen_tb.vcd");
         $dumpvars(0, imm_gen_tb);
-        // Initialize Inputs
-        clk = 0;
-        rst = 1;
-        inst = 32'b0;
 
-        // Apply reset
-        #10 rst = 0;
-
-        // Test I-Type instruction
-        // Separated binary 0000 0000 0001 0000 0000 0000 0010 0011 OPCODE: 0010011 I_TYPE
-        inst = 32'b00000000000100000000000000100011; // Example ADDI instruction
+        // Initialize inputs
+        instr = 32'b0;
+        imm_sel = 3'b0;
+        
+        // Apply test cases for different imm_sel values
+        
+        // Test I-type immediate
+        $display("Test I-type Immediate (IMM_I):");
+        imm_sel = `IMM_I;
+        instr = 32'hF0000000; // Test with an example instr (I-type)
         #10;
-        $display("I-Type Imm: %h (Expected: %h)", imm, 32'h00000001);
-
-        // Test S-Type instruction
-        // Separated binary 0000 0000 0000 0000 0000 0000 0010 0011 OPCODE: 0100011 S_TYPE
-        inst = 32'b00000000000100000001000001000011; // Example SW instruction
+        $display("Instruction: %h, Immediate: %h", instr, imm_out);
+        
+        // Test S-type immediate
+        $display("Test S-type Immediate (IMM_S):");
+        imm_sel = `IMM_S;
+        instr = 32'hFE000000; // Test with an example instr (S-type)
         #10;
-        $display("S-Type Imm: %h (Expected: %h)", imm, 32'h00000100);
-
-        // Test B-Type instruction
-        // Separated binary 0000 0000 0000 0000 0000 0000 1100 0011 OPCODE: 1100011 B_TYPE
-        inst = 32'b00000000001000000010000001100011; // Example BEQ instruction
+        $display("Instruction: %h, Immediate: %h", instr, imm_out);
+        
+        // Test B-type immediate
+        $display("Test B-type Immediate (IMM_B):");
+        imm_sel = `IMM_B;
+        instr = 32'hFF000000; // Test with an example instr (B-type)
         #10;
-        $display("B-Type Imm: %h (Expected: %h)", imm, 32'h00000800);
-
-        // Test U-Type instruction
-        inst = 32'b00000000000100000000000001101111; // Example LUI instruction
+        $display("Instruction: %h, Immediate: %h", instr, imm_out);
+        
+        // Test U-type immediate
+        $display("Test U-type Immediate (IMM_U):");
+        imm_sel = `IMM_U;
+        instr = 32'hFFFF0000; // Test with an example instr (U-type)
         #10;
-        $display("U-Type Imm: %h (Expected: %h)", imm, 32'h00000100);
-
-        // Test J-Type instruction
-        inst = 32'b00000000000000010000000000001111; // Example JAL instruction
+        $display("Instruction: %h, Immediate: %h", instr, imm_out);
+        
+        // Test J-type immediate
+        $display("Test J-type Immediate (IMM_J):");
+        imm_sel = `IMM_J;
+        instr = 32'hFFFFFFF0; // Test with an example instr (J-type)
         #10;
-        $display("J-Type Imm: %h (Expected: %h)", imm, 32'h00000010);
-
-        // Test reset functionality
-        rst = 1;
-        #10;
-        rst = 0;
-        inst = 32'b00000000000000000000000000000000; // Reset to default instruction
-        #10;
-        $display("Reset Imm: %h (Expected: %h)", imm, 32'h00000000);
-
-        // Finish simulation
+        $display("Instruction: %h, Immediate: %h", instr, imm_out);
+        
+        // End simulation
         $finish;
     end
+
 endmodule
