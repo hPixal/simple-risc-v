@@ -14,19 +14,34 @@ always @ (posedge clk) begin
         out_s <= 32'b0;       // Reset the output
     end
     else begin
-        case(op)
-            `ALU_OP_ADD    :       out_s = in_a + in_b;
-            `ALU_OP_SUB    :       out_s = in_a - in_b;
-            `ALU_OP_SLL    :       out_s = in_a << in_b[4:0];
-            `ALU_OP_SRL    :       out_s = in_a >> in_b[4:0];
-            `ALU_OP_SRA    :       out_s = $signed(in_a) >>> in_b[4:0];
-            `ALU_OP_SLT    :       out_s = ($signed(in_a) < $signed(in_b)) ? 32'h1 : 32'h0;
-            `ALU_OP_SLTU   :       out_s = (in_a < in_b) ? 32'h1 : 32'h0;
-            `ALU_OP_XOR    :       out_s = in_a ^ in_b;
-            `ALU_OP_OR     :       out_s = in_a | in_b;
-            `ALU_OP_AND    :       out_s = in_a & in_b;
-            `ALU_OP_PASS_B :       out_s = in_b;
-            default     :       out_s = 32'h0; // Default for invalid operations
+        case (op)
+            `ALU_ADD: begin
+                out_s = in_a + in_b; // Addition
+            end
+            `ALU_SUB: begin
+                out_s = in_a - in_b; // Subtraction
+            end
+            `ALU_AND: begin
+                out_s = in_a & in_b; // Logical AND
+            end
+            `ALU_OR: begin
+                out_s = in_a | in_b; // Logical OR
+            end
+            `ALU_XOR: begin
+                out_s = in_a ^ in_b; // Logical XOR
+            end
+            `ALU_SLL: begin
+                out_s = in_a << in_b[4:0]; // Shift left logical
+            end
+            `ALU_SRL: begin
+                out_s = in_a >> in_b[4:0]; // Shift right logical
+            end
+            `ALU_SRA: begin
+                out_s = $signed(in_a) >>> in_b[4:0]; // Shift right arithmetic
+            end
+            default: begin
+                out_s = 32'b0; // Default to zero
+            end
         endcase
     end
 end
