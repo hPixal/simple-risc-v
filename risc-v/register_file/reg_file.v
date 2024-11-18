@@ -109,8 +109,8 @@ always @ (posedge clk) begin
             `READ_X27_S11: rg_x27_s11   <= wd;
             `READ_X28_T3 : rg_x28_t3    <= wd;
             `READ_X29_T4 : rg_x29_t4    <= wd;
-            `READ_X31_T6 : rg_x30_t5    <= wd;
-            `READ_X30_T5 : rg_x31_t6    <= wd;
+            `READ_X30_T5 : rg_x30_t5    <= wd;
+            `READ_X31_T6 : rg_x31_t6    <= wd;
         endcase
     end
 end
