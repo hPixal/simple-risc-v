@@ -1,0 +1,147 @@
+$date
+	Mon Nov 18 14:12:36 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module reduced_datapath_tb $end
+$var wire 1 ! zero $end
+$var wire 2 " resSrc [1:0] $end
+$var wire 1 # regWrite $end
+$var wire 1 $ memWrite $end
+$var wire 1 % jump $end
+$var wire 2 & immSrc [1:0] $end
+$var wire 1 ' branch $end
+$var wire 1 ( aluSrc $end
+$var wire 32 ) aluResult [31:0] $end
+$var wire 2 * aluOpOut [1:0] $end
+$var wire 3 + aluControl [2:0] $end
+$var reg 2 , aluOp [1:0] $end
+$var reg 3 - f3 [2:0] $end
+$var reg 1 . f7 $end
+$var reg 7 / op [6:0] $end
+$var reg 32 0 srcA [31:0] $end
+$var reg 32 1 srcB [31:0] $end
+$scope module alu $end
+$var wire 32 2 res [31:0] $end
+$var wire 32 3 srcA [31:0] $end
+$var wire 32 4 srcB [31:0] $end
+$var wire 1 ! zero $end
+$var wire 3 5 ALUControl [2:0] $end
+$var reg 32 6 aux [31:0] $end
+$var reg 1 7 aux_zero $end
+$upscope $end
+$scope module alu_deco $end
+$var wire 3 8 aluControl [2:0] $end
+$var wire 3 9 f3 [2:0] $end
+$var wire 1 . f7 $end
+$var wire 1 . op $end
+$var wire 2 : aluOp [1:0] $end
+$var reg 3 ; aluControlAux [2:0] $end
+$upscope $end
+$scope module main_deco $end
+$var wire 2 < aluOp [1:0] $end
+$var wire 1 ( aluSrc $end
+$var wire 1 ' branch $end
+$var wire 2 = immSrc [1:0] $end
+$var wire 1 % jump $end
+$var wire 1 $ memWrite $end
+$var wire 7 > op [6:0] $end
+$var wire 1 # regWrite $end
+$var wire 2 ? resSrc [1:0] $end
+$var reg 2 @ aluOpAux [1:0] $end
+$var reg 1 A aluSrcAux $end
+$var reg 1 B branchAux $end
+$var reg 2 C immSrcAux [1:0] $end
+$var reg 1 D jumpAux $end
+$var reg 1 E memWriteAux $end
+$var reg 1 F regWriteAux $end
+$var reg 2 G resSrcAux [1:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b0 G
+1F
+0E
+0D
+b0 C
+0B
+0A
+b10 @
+b0 ?
+b110011 >
+b0 =
+b10 <
+b0 ;
+b10 :
+b0 9
+b0 8
+07
+b110000 6
+b0 5
+b100000 4
+b10000 3
+b110000 2
+b100000 1
+b10000 0
+b110011 /
+0.
+b0 -
+b10 ,
+b0 +
+b10 *
+b110000 )
+0(
+0'
+b0 &
+0%
+0$
+1#
+b0 "
+0!
+$end
+#10
+b11111111111111111111111111110000 )
+b11111111111111111111111111110000 2
+b11111111111111111111111111110000 6
+b1 +
+b1 5
+b1 8
+b1 ;
+1.
+#20
+1!
+17
+b100 +
+b100 5
+b100 8
+b100 ;
+b0 )
+b0 2
+b0 6
+b1 *
+b1 :
+b1 <
+b1 @
+0#
+0F
+b10 &
+b10 =
+b10 C
+1'
+1B
+b110000 1
+b110000 4
+b110000 0
+b110000 3
+b1100011 /
+b1100011 >
+#30
